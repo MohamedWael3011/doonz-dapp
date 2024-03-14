@@ -6,6 +6,8 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 export default defineConfig({
   plugins: [react(), nodePolyfills()],
   define: {
-    "process.env": {},
+    "process.env": {
+      VITE_TEMPLATE_CLIENT_ID: JSON.stringify(process.env.VITE_TEMPLATE_CLIENT_ID)
+    },
   },
 });
