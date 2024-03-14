@@ -1,94 +1,30 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
-import "./styles/Home.css";
+import { Navigate, Route, Routes } from 'react-router-dom'
+import './styles/globals.css'
+import Home from './components/pages/Home'
+import NavBar from './components/nav-bar/NavBar'
+import BackgroundImage from './assets/Background.png';
+import RafflePage from './components/pages/Raffle';
+import AdminPage from './components/pages/Admin';
+import NFTs from './components/pages/NFTs';
 
-export default function Home() {
+
+function App() {
+
   return (
-    <main className="main">
-      <div className="container">
-        <div className="header">
-          <h1 className="title">
-            Welcome to{" "}
-            <span className="gradient-text-0">
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb.
-              </a>
-            </span>
-          </h1>
+        <main className='min-h-screen bg-cover bg-no-repeat overflow-hidden' style={{ backgroundImage: `url(${BackgroundImage})` }}>
+          <NavBar/>
+        <Routes>
+          <Route path="/" element={<Navigate to='/home' />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/raffle" element={<RafflePage />} />
+          <Route path="/raffle-admin" element={<AdminPage />} />
+          <Route path="/nfts" element={<NFTs />} />
 
-          <p className="description">
-            Get started by configuring your desired network in{" "}
-            <code className="code">src/index.js</code>, then modify the{" "}
-            <code className="code">src/App.js</code> file!{" "}
-          </p>
 
-          <div className="connect">
-            <ConnectWallet />
-          </div>
-        </div>
 
-        <div className="grid">
-          <a
-            href="https://portal.thirdweb.com/"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/portal-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-1">Portal ➜</h2>
-              <p>
-                Guides, references, and resources that will help you build with
-                thirdweb.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/dashboard"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/dashboard-preview.png"
-              alt="Placeholder preview of starter"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-2">Dashboard ➜</h2>
-              <p>
-                Deploy, configure, and manage your smart contracts from the
-                dashboard.
-              </p>
-            </div>
-          </a>
-
-          <a
-            href="https://thirdweb.com/templates"
-            className="card"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="/images/templates-preview.png"
-              alt="Placeholder preview of templates"
-            />
-            <div className="card-text">
-              <h2 className="gradient-text-3">Templates ➜</h2>
-              <p>
-                Discover and clone template projects showcasing thirdweb
-                features.
-              </p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </main>
-  );
+        </Routes>
+        </main>
+  )
 }
+
+export default App
