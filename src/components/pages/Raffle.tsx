@@ -129,7 +129,7 @@ function RafflePage() {
                       </Web3Button>
                     </div>
                   ) : (
-                    "Please connect your wallet first!"
+                    ""
                   )}
                 </div>
               )}
@@ -168,7 +168,7 @@ function RafflePage() {
                       </Web3Button>
                     </div>
                   ) : (
-                    "Please connect your wallet first!"
+                    ""
                   )}
                 </div>
               )}
