@@ -2,6 +2,7 @@ import {
   Web3Button,
   useAddress,
   useContract,
+  useContractEvents,
   useContractRead,
 } from "@thirdweb-dev/react";
 import ShadowLogo from "../../assets/DOONZ_LOGO_shadow.png";
@@ -35,6 +36,9 @@ function RafflePage() {
   const { data: isAllowedERC20, isLoading: LoadingIsAllowedERC20 } =
     useContractRead(contract, "allowERC20");
 
+    const { data: nftAddress, isLoading: LoadingNftAddress } =
+    useContractRead(contract, "nftAddress");
+
   const { data: raffleStatus, isLoading: LoadingRaffleStatus } =
     useContractRead(contract, "raffleStatus");
 
@@ -56,6 +60,13 @@ function RafflePage() {
 
   const entryCostOnSumbit = parseFloat(entryCostInEth) * entryAmount;
   const tokenCostOnSumbit = parseFloat(tokenCostInEth) * tokenAmount;
+  const { data:latestWinner, isLoading:loadingLatestWinner } = useContractEvents(contract,"WinnerSelected",{queryFilter:{
+    fromBlock:0,
+    toBlock:"latest",
+    order:"desc"
+  }});
+
+ const winner = latestWinner?.at(0)?.data.winner;
 
   function increaseEntryAmount() {
     setEntryAmount(entryAmount + 1);
@@ -79,7 +90,7 @@ function RafflePage() {
       <div className="w-full flex items-start justify-evenly h-full">
         <div className="lg:grid lg:grid-cols-2 flex flex-col justify-evenly  xl:max-w-[1280px] w-full mt-[11vw] relative z-10  m-0 overflow-hidden">
           <div className="flex">
-            {raffleStatus ? <PrizeNFT /> : <img src={ShadowLogo} />}
+            {raffleStatus || ( !LoadingNftAddress && nftAddress != "0x0000000000000000000000000000000000000000") ? <PrizeNFT /> : <img src={ShadowLogo} />}
           </div>
           <div className="flex flex-col justify-center md:items-start items-center p-[5%] gap-5">
             <div className="flex flex-col gap-2">
@@ -183,7 +194,9 @@ function RafflePage() {
               <h3>Please connect your wallet.</h3>
             )}
           </div>
-          <div className="mt-5">
+          <div className="mt-5 flex flex-col">
+         {!loadingLatestWinner && <Text color={"white"} mb={4} fontWeight={"bold"}  fontSize="x-large">Last Winner: {winner} </Text>}
+
             <Text fontSize="x-large">Current Entries: </Text>
             <CurrentEntries />
           </div>
