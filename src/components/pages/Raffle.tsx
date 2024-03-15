@@ -100,7 +100,7 @@ function RafflePage() {
             {!LoadingRaffleStatus && (
               <RaffleStatus raffleStatus={raffleStatus} />
             )}
-            {!LoadingMaxEntries && !LoadingTotalEntries && (
+            {!LoadingMaxEntries && !LoadingTotalEntries && raffleStatus && (
               <h3 className="text-2xl">{totalEnteries.toString()} / {maxEntries.toString()} Ticket Bought!</h3>
             )}
 
