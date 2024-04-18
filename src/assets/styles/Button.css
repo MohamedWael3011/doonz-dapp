@@ -1,0 +1,9 @@
+.button {
+    background-color: #3B82F6 !important;
+    color: white !important;
+    transition: background-color 0.5s ease !important;
+  }
+  
+  .button:hover {
+    background-color: darkblue !important;
+  }

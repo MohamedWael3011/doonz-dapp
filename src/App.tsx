@@ -5,7 +5,7 @@ import NavBar from './components/nav-bar/NavBar'
 import BackgroundImage from './assets/Background.png';
 import RafflePage from './components/pages/Raffle';
 import AdminPage from './components/pages/Admin';
-import NFTs from './components/pages/NFTs';
+import Stake from './components/pages/stake/Stake';
 
 
 function App() {
@@ -18,7 +18,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/raffle" element={<RafflePage />} />
           <Route path="/raffle-admin" element={<AdminPage />} />
-          <Route path="/nfts" element={<NFTs />} />
+          <Route path="/stake" element={<Stake/>} />
+
 
 
 

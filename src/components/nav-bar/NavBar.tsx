@@ -34,7 +34,7 @@ export default function NavBar() {
     return () => ctx.revert();
   }, []);
   return (
-    <div className="fixed top-0 w-full z-20 flex justify-center text-2xl">
+    <div className="fixed top-0 w-full  z-20 flex justify-center text-2xl md:mt-0 mt-5">
       <div
         ref={navRef}
         className="flex  xl:max-w-[1280px] bg-[#3978ae]  w-full justify-between items-center max-w-[1240px] mx-auto p-5 text-white  md:mt-4  rounded-xl"
@@ -56,7 +56,7 @@ export default function NavBar() {
             <a href="/raffle">{"marketplace (coming soon)"}</a>
           </li>
           <li className="flex items-center navitem px-4 whitespace-nowrap hover:tracking-widest   hover:underline hover:decoration-pink-400  hover:duration-300 hover:ease-in">
-            <a href="/staking">{"staking (coming soon)"}</a>
+            <a href="/stake">{"staking"}</a>
           </li>
           {/* <li className="flex items-center navitem px-4 whitespace-nowrap hover:tracking-widest   hover:underline hover:decoration-pink-400  hover:duration-300 hover:ease-in">
             <a href="/freebies">freebies</a>
@@ -109,7 +109,7 @@ export default function NavBar() {
               <a href="#">{"marketplace (coming soon)"}</a>
             </li>
             <li className="flex items-center navitem px-4 whitespace-nowrap hover:tracking-widest   hover:underline hover:decoration-pink-400  hover:duration-300 hover:ease-in">
-              <a href="#">{"staking (coming soon)"}</a>
+              <a href="/stake">{"staking"}</a>
             </li>
             {/* <li className="flex items-center navitem px-4 whitespace-nowrap hover:tracking-widest   hover:underline hover:decoration-pink-400  hover:duration-300 hover:ease-in">
               <a href="#">freebies</a>
