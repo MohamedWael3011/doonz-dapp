@@ -44,7 +44,7 @@ export default function Stake() {
           </div>
         </div>
         <BoosterButton/>
-        {!isLoading && <CircularProgressbar className="m-10" value={actualPercentage} maxValue={100} text={`+${boosterPercent.toString()}%`}/>}
+        {!isLoading && <CircularProgressbar className="m-10" value={actualPercentage} maxValue={100} text={`+${actualPercentage}%`}/>}
         <div className="flex gap-5">
         <Web3Button className="button" contractAddress={STAKE_ADDRESS} action={ async function (contract: SmartContract<BaseContract>) {
                 if (!address) return;
