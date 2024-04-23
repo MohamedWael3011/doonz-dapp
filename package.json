@@ -14,7 +14,7 @@
     "@gsap/react": "^2.1.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-navigation-menu": "^1.1.4",
-    "@thirdweb-dev/react": "^4",
+    "@thirdweb-dev/react": "^4.6.5",
     "@thirdweb-dev/sdk": "^4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
