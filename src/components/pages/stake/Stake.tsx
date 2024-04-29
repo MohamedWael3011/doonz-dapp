@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  ThirdwebNftMedia,
   Web3Button,
   useAddress,
   useContract,
@@ -19,6 +18,7 @@ import BoosterButton from "../../BoosterButton";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import "../../../assets/styles/Button.css";
+import { useState } from "react";
 
 export default function Stake() {
   const address = useAddress();
@@ -39,16 +39,21 @@ export default function Stake() {
 
   const { data: tokenBalance } = useTokenBalance(tokenContract, address);
 
-  async function stakeNft(id: string) {
+  async function stakeSelectedNft() {
     if (!address) return;
 
     const isApproved = await NFTContract?.isApproved(address, STAKE_ADDRESS);
     if (!isApproved) {
       await NFTContract?.setApprovalForAll(STAKE_ADDRESS, true);
     }
-    await contract?.call("stake", [[id]]);
+    await contract?.call("stake", [selectedUnstakedNFTs]);
   }
 
+  async function unstakeSelectedNft() {
+    if (!address) return;
+
+    await contract?.call("withdraw", [selectedStakedNFTs]);
+  }
   async function stakeAllNft(ids: any[]) {
     if (!address) return;
 
@@ -59,11 +64,30 @@ export default function Stake() {
     await contract?.call("stake", [ids]);
   }
 
+    // States for selected NFTs
+    const [selectedStakedNFTs, setSelectedStakedNFTs] = useState<string[]>([]);
+    const [selectedUnstakedNFTs, setSelectedUnstakedNFTs] = useState<string[]>([]);
+  
+    // Functions to handle selections
+    const toggleStakedSelection = (tokenId:string) => {
+      const newSelection = selectedStakedNFTs.includes(tokenId)
+        ? selectedStakedNFTs.filter((id: string) => id !== tokenId)
+        : [...selectedStakedNFTs, tokenId];
+      setSelectedStakedNFTs(newSelection);
+    };
+  
+    const toggleUnstakedSelection = (tokenId:string) => {
+      const newSelection = selectedUnstakedNFTs.includes(tokenId)
+        ? selectedUnstakedNFTs.filter((id: string) => id !== tokenId)
+        : [...selectedUnstakedNFTs, tokenId];
+      setSelectedUnstakedNFTs(newSelection);
+    };
 
 
   if (isLoadingStake) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <div className="w-full flex items-start justify-evenly h-full">
@@ -108,9 +132,10 @@ export default function Stake() {
               {userStakeInfo &&
                 userStakeInfo[0]?.map((stakedToken: BigNumber) => (
                   <NFTCard
-                    tokenId={stakedToken.toNumber()}
+                    tokenId={stakedToken.toString()}
                     key={stakedToken.toString()}
-                  />
+                    toggleSelection={toggleStakedSelection}
+                    isSelected={selectedStakedNFTs.includes(stakedToken.toString())} variant={"staked"}          />
                 ))}
             </div>
             {userStakeInfo && userStakeInfo[0]?.length > 0 && (
@@ -126,6 +151,15 @@ export default function Stake() {
                 Withdrw all
               </Web3Button>
             )}
+                          {selectedStakedNFTs && selectedStakedNFTs?.length > 0 && (
+                <Web3Button
+                  className="button"
+                  contractAddress={STAKE_ADDRESS}
+                  action={unstakeSelectedNft}
+                >
+                  Withdraw Selected
+                </Web3Button>
+              )}
 
             <div className="flex flex-col items-center">
               <span className="text-2xl text-white">Unstaked NFTs</span>
@@ -135,19 +169,11 @@ export default function Stake() {
                   <div>You do not own any unstaked NFTs</div>
                 )}
                 {ownedNFTs?.map((nft) => (
-                  <div
-                    className="text-center bg-white p-4 m-2 rounded-lg w-[200px]"
+                  <NFTCard
+                    tokenId={nft.metadata.id}
                     key={nft.metadata.id.toString()}
-                  >
-                    <h3>{nft.metadata.name}</h3>
-                    <ThirdwebNftMedia metadata={nft.metadata} />
-                    <Web3Button
-                      contractAddress={STAKE_ADDRESS}
-                      action={() => stakeNft(nft.metadata.id)}
-                    >
-                      Stake
-                    </Web3Button>
-                  </div>
+                    toggleSelection={toggleUnstakedSelection}
+                    isSelected={selectedUnstakedNFTs.includes(nft.metadata.id)} variant={"unstaked"}          />
                 ))}
               </div>
               {ownedNFTs && ownedNFTs?.length > 0 && (
@@ -161,6 +187,15 @@ export default function Stake() {
                   }}
                 >
                   Stake all
+                </Web3Button>
+              )}
+              {selectedUnstakedNFTs && selectedUnstakedNFTs?.length > 0 && (
+                <Web3Button
+                  className="button"
+                  contractAddress={STAKE_ADDRESS}
+                  action={stakeSelectedNft}
+                >
+                  Stake Selected
                 </Web3Button>
               )}
             </div>
