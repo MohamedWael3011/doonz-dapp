@@ -32,7 +32,7 @@ const NFTCard = ({ tokenId, toggleSelection, isSelected,variant }: NFTCardProps)
         action={(contract) => contract?.call("stake", [[nft?.metadata.id]])}
         contractAddress={STAKE_ADDRESS}
       >
-        Withdraw
+        Stake
       </Web3Button>
       )}
     </div>
