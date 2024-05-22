@@ -143,7 +143,7 @@ export default function Stake() {
                 className="button"
                 contractAddress={STAKE_ADDRESS}
                 action={() => {
-                  const tokenIds = ownedNFTs?.map((nft) => nft.metadata.id);
+                  const tokenIds = userStakeInfo[0]?.map((stakedToken:BigNumber) => stakedToken.toString());
                   if (!tokenIds) return;
                   return contract?.call("withdraw", [tokenIds]);
                 }}
